@@ -49,12 +49,18 @@ public class MItem {
             srcVal.forEach((word) -> {
                 if(itemVal.search(word)>0){
                     System.out.println("Item ditemukan!");
-                    results.add(item);
+                    System.out.println(s_results.search(item));
+                    if(!(s_results.search(item)>0)){
+                        s_results.add(item);
+                    }
                 }else{
-                    results.remove(item);
+                    s_results.remove(item);
                 }
             });
         }
+        s_results.forEach((r) -> {
+            results.add(r);
+        });
         if(results.isEmpty()){
             System.out.println("Item tidak ditemukan!");
             return null;
