@@ -22,4 +22,8 @@ public class Session {
     public void setSession(Cashier c){
         cashier = c;
     }
+    
+    public void logOut(){
+        this.cashier = null;
+    }
 }

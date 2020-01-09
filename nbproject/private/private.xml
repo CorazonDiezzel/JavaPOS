@@ -3,15 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Dharm/OneDrive/Documents/NetBeansProjects/UAS/src/handlers/LoginHandler.java</file>
             <file>file:/C:/Users/Dharm/OneDrive/Documents/NetBeansProjects/UAS/src/uas/UAS.java</file>
+            <file>file:/C:/Users/Dharm/OneDrive/Documents/NetBeansProjects/UAS/src/Mocks/MItem.java</file>
             <file>file:/C:/Users/Dharm/OneDrive/Documents/NetBeansProjects/UAS/src/handlers/ItemHandler.java</file>
-            <file>file:/C:/Users/Dharm/OneDrive/Documents/NetBeansProjects/UAS/src/uas/Session.java</file>
-            <file>file:/C:/Users/Dharm/OneDrive/Documents/NetBeansProjects/UAS/src/handlers/InteractionHandler.java</file>
-            <file>file:/C:/Users/Dharm/OneDrive/Documents/NetBeansProjects/UAS/src/handlers/TransactionHandler.java</file>
-            <file>file:/C:/Users/Dharm/OneDrive/Documents/NetBeansProjects/UAS/src/uas/Login.java</file>
+            <file>file:/C:/Users/Dharm/OneDrive/Documents/NetBeansProjects/UAS/src/entities/Item.java</file>
             <file>file:/C:/Users/Dharm/OneDrive/Documents/NetBeansProjects/UAS/src/handlers/OutputHandler.java</file>
-            <file>file:/C:/Users/Dharm/OneDrive/Documents/NetBeansProjects/UAS/src/entities/Cashier.java</file>
         </group>
     </open-files>
 </project-private>

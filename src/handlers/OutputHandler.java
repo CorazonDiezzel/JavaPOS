@@ -17,12 +17,25 @@ public class OutputHandler {
     public OutputHandler(int width) {
         this.displayWidth = width;
     }
-    public Table table = new Table(displayWidth);
+    
+    public void printLine(char c){
+        System.out.print("|");
+        for(int i=0;i<=(displayWidth-2);i++){
+            System.out.print(c);
+        }
+        System.out.print("|\n");
+    }
+    
+    public void center(String s){
+        int c = (displayWidth - s.length())/2;
+        System.out.printf("%"+c+"s"+s+"%"+c+"s\n"," "," ");
+    }
 }
-class Table{
-    int width,row,colSpaces[];
-    Table(int w){
-        this.width = w;
+class Table extends OutputHandler{
+    int colSpaces[];
+    
+    Table(){
+        
     }
     
     public Table setColumnSpace(int[] cs){
@@ -30,22 +43,17 @@ class Table{
         return this;
     }
     public Table header(String head[]){
-        for(int i=0;i<=width;i++){
-            System.out.print("=");
-        }
+        printLine('-');
         row(head);
-        for(int i=0;i<=width;i++){
-            System.out.print("=");
-        }
-        System.out.print("\n");
+        printLine('-');
         return this;
     }
     
     public Table row(String col[]){
-        System.out.print("\n");
         for (int i=0;i<col.length;i++) {
             System.out.printf("|%"+(colSpaces[i]-1)+"s",col[i]);
         }
+        System.out.print("|");
         System.out.print("\n");
         return this;
     }

@@ -5,7 +5,8 @@
  */
 package uas;
 
-import handlers.ItemHandler;
+import Mocks.MCashier;
+import handlers.InteractionHandler;
 import handlers.LoginHandler;
 
 /**
@@ -19,22 +20,19 @@ public class UAS {
      * @param args the command line arguments
      */
     public static void main(String[] args){
+        InteractionHandler mainInteraction;
         Toko tokoku = new Toko();
+        Session currentSession = new Session();
+        
         tokoku.tokoName = "Toko ATK";
         tokoku.tokoAddress = "Jl.Kebanjiran, Gang.Tak Berujung, No.13";
         tokoku.tokoPhoneNo = "08123456719";
-//        Session currentSession = new Session();
-//        LoginHandler lh = new LoginHandler();
-//        lh.doLogin(currentSession);
-        ItemHandler itemHandler = new ItemHandler();
-        itemHandler.showSearchItemMenu();
+        do{
+//            LoginHandler lh = new LoginHandler();
+//            lh.doLogin(currentSession);
+            currentSession.setSession(new MCashier().getCashier("Corazon", "Diezzel"));
+            mainInteraction = new InteractionHandler(tokoku,currentSession);
+        }while(mainInteraction.exit());
     }
-}
-
-
-class Toko{
-    String tokoName;
-    String tokoAddress;
-    String tokoPhoneNo;
 }
     

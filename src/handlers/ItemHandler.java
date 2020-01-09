@@ -14,31 +14,27 @@ import java.util.Enumeration;
  * @author Dharm
  */
 public class ItemHandler {
-    OutputHandler oh = new OutputHandler();
+    Table table = new Table();
     Scanner sc = new Scanner(System.in);
     MItem items = new MItem();
     int tableWidth[] = {10,50,20};
-    
-    String searchKey = Item.AttrName(3);
+    String searchKey;
     String searchValue = "";
     
     public void showSearchItemMenu(){
+        searchKey = Item.AttrName(3);
         System.out.println("Masukkan "+searchKey);
         searchValue = sc.nextLine();
-        Enumeration res = items.getItem(searchKey, searchValue).elements() != null ? items.getItem(searchKey, searchValue).elements():null;
-//        -----------------------------------------
-//        NO | Nama Barang
-//        -----------------------------------------
-//        
-        oh.table.setColumnSpace(tableWidth).header(new String[]{
+        Enumeration res = items.getItem(searchKey, searchValue) != null ? items.getItem(searchKey, searchValue).elements():null;
+        table.setColumnSpace(tableWidth).header(new String[]{
             Item.AttrNames()[0],
             Item.AttrNames()[3],
             Item.AttrNames()[4]
         });
-        if(!res.equals(null)){
+        if(res !=null){
             while (res.hasMoreElements()) {
                 Item nextItem = (Item) res.nextElement();
-                oh.table.row(new String[]{
+                table.row(new String[]{
                     nextItem.getVal(Item.AttrName(0)).toString(),
                     nextItem.getVal(Item.AttrName(3)).toString(),
                     nextItem.getVal(Item.AttrName(4)).toString()
@@ -47,7 +43,11 @@ public class ItemHandler {
         }else{
             
         }
-        
         System.out.println("Masukkan No Barang Yang Dipilih :");
+    }
+    public void addItem(){
+        System.out.println("Masukkan "+Item.AttrNames()[0]+" : ");
+        sc.next();
+        
     }
 }
