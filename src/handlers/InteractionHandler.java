@@ -20,8 +20,10 @@ public class InteractionHandler {
     Session session;
     Toko toko;
     ItemHandler ih = new ItemHandler();
-    Table table = new Table();
     Scanner s = new Scanner(System.in);
+    
+    Table menuTable = new Table();
+    Table salesTable = new Table();
 
     public InteractionHandler(Toko toko,Session session) {
         this.toko = toko;
@@ -31,13 +33,13 @@ public class InteractionHandler {
     
     public void showTokoMenu(){
         String p;
-        table.printLine('=');
-        table.center(toko.getTokoName());
-        table.center(toko.getTokoAddress());
-        table.center(toko.getTokoPhoneNo());
-        table.printLine('=');
+        menuTable.printLine('=');
+        menuTable.center(toko.getTokoName());
+        menuTable.center(toko.getTokoAddress());
+        menuTable.center(toko.getTokoPhoneNo());
+        menuTable.printLine('=');
         do{
-            table.setColumnSpace(new int[]{5,40})
+            menuTable.setColumnSpace(new int[]{5,40})
                     .row(new String[]{"1","New Sales"})
                     .row(new String[]{"2","Report"})
                     .row(new String[]{"3","Add Item"})
@@ -61,20 +63,21 @@ public class InteractionHandler {
         }while(p != "4");
     }
     public void showSalesMenu(){
-        /*
-        ---------------------------------------
-        No | Item Name          | Qty | Price |
-        ---------------------------------------
-        
-        
-        
-        
-        ---------------------------------------
-        Total
-        ---------------------------------------
-        1.Search Item
-        Input Item Id / Barcode :
-        */
+        int totalPrice = 0;
+        salesTable.printLine('=');
+        salesTable.printLine('=');
+        salesTable.printLine('-');
+        salesTable.setColumnSpace(new int[]{5,30,10,20})
+                .header(new String[]{"No","Item Name","Qty","Price"});
+        salesTable.printLine('-');
+//        Item goes 
+        salesTable.printLine('-');
+        salesTable.setColumnSpace(new int[]{10,40})
+                .row(new String[]{"Total",String.valueOf(totalPrice)});
+        salesTable.printLine('-');
+        salesTable.row(new String[]{"1","Search Item"});
+        salesTable.row(new String[]{"2","Input Item ID / Barcode"});
+        salesTable.printLine('=');
     }
     public void doExit(){
         exitCode = true;
