@@ -5,6 +5,8 @@
  */
 package handlers;
 
+import entities.Item;
+import java.util.Enumeration;
 import java.util.Scanner;
 import uas.Session;
 import uas.Toko;
@@ -67,10 +69,23 @@ public class InteractionHandler {
         salesTable.printLine('=');
         salesTable.printLine('=');
         salesTable.printLine('-');
-        salesTable.setColumnSpace(new int[]{5,30,10,20})
+        salesTable.setColumnSpace(new int[]{5,30,20,20})
                 .header(new String[]{"No","Item Name","Qty","Price"});
         salesTable.printLine('-');
-//        Item goes 
+//        Item goes here
+        Enumeration res = ih.items.getItem(Item.AttrName(3), "Buku") != null ? ih.items.getItem(Item.AttrName(3), "Buku").elements():null;
+        int[] qty = {4,6,2,6,8,3,7,4,6};
+        int inum = 0;
+        while(res.hasMoreElements()){
+            Item sitm = (Item) res.nextElement();
+            salesTable.row(new String[]{
+                String.valueOf(inum),
+                String.valueOf((sitm.getVal(Item.AttrName(3)))),
+                String.valueOf(qty),
+                Integer.valueOf(String.valueOf(sitm.getVal(Item.AttrName(1)))).toString()
+            });
+        }
+        
         salesTable.printLine('-');
         salesTable.setColumnSpace(new int[]{10,40})
                 .row(new String[]{"Total",String.valueOf(totalPrice)});

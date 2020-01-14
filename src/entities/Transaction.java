@@ -5,6 +5,8 @@
  */
 package entities;
 
+import java.util.Stack;
+
 /**
  *
  * @author Dharm
@@ -12,12 +14,25 @@ package entities;
 public class Transaction {
     String transactionId;
     String transactionDate;
-    String transactionTotalPrice;
-    String transactionTotalPaid;
+    int transactionTotalPrice;
+    int transactionTotalPaid;
     String transactionStatus;
-    TransactionItems items;
-}
-class TransactionItems{
-    String transactionId;
-    Item tItems[];
+    Stack<TransactionItem> items;
+
+    public Transaction() {
+    }
+
+    public Transaction(String transactionId, String transactionDate, int transactionTotalPrice, int transactionTotalPaid, String transactionStatus, TransactionItem items) {
+        this.transactionId = transactionId;
+        this.transactionDate = transactionDate;
+        this.transactionTotalPrice = transactionTotalPrice;
+        this.transactionTotalPaid = transactionTotalPaid;
+        this.transactionStatus = transactionStatus;
+        this.items = new Stack<>();
+        
+    }
+    
+    public void addItem(TransactionItem itm){
+        this.items.push(itm);
+    }
 }

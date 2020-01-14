@@ -5,10 +5,18 @@
  */
 package Mocks;
 
+import entities.Transaction;
+import entities.TransactionItem;
+import java.util.Stack;
+
 /**
  *
  * @author Dharm
  */
 public class MTransaction {
+    Stack<Transaction> transactions;
+    public MTransaction() {
+        transactions.add(new Transaction("1", "10 Januari 2020", 120000, 120000, "Lunas", new TransactionItem("1")));
+    }
     
 }

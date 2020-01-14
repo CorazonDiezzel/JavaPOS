@@ -5,10 +5,20 @@
  */
 package handlers;
 
+import entities.Transaction;
+
 /**
  *
  * @author Dharm
  */
 public class TransactionHandler {
+    Transaction currentTransaction;
     
+    void createNewTransaction(){
+    
+    }
+    
+    void getTransaction(String transactionID){
+    
+    }
 }

@@ -17,7 +17,7 @@ import java.util.Vector;
  * @author Dharm
  */
 public class MItem {
-    Stack<Item> items = new Stack<Item>();
+    Stack<Item> items = new Stack<>();
 
     public MItem() {
         items.addElement(new Item(1,4000,40,"LePen Pensil 2B","89129818273","LePen"  ,"Pensil"));
@@ -39,10 +39,11 @@ public class MItem {
         Stack<String> srcVal = new Stack<>();
         String[] swords = attrValue.split(" ");
         for(String sword : swords){
-            System.out.println(sword);
+//            System.out.println(sword);
             srcVal.push(sword);
         }
-        for (Item item :(Item[]) items.toArray()) {
+//        for (Item item :(Item[]) items.toArray()) {
+        items.forEach((item) -> { //Start Search Iteration;
 //            Item
             Stack<String> itemVal = new Stack<>();
             String[] iwords = String.valueOf(item.getVal(attrName)).split(" ");
@@ -52,8 +53,8 @@ public class MItem {
             
             srcVal.forEach((word) -> {
                 if(itemVal.search(word)>0){
-                    System.out.println("Item ditemukan!");
-                    System.out.println(s_results.search(item));
+//                    System.out.println("Item ditemukan!");
+//                    System.out.println(s_results.search(item));
                     if(!(s_results.search(item)>0)){
                         s_results.add(item);
                     }
@@ -61,12 +62,12 @@ public class MItem {
                     s_results.remove(item);
                 }
             });
-        }
+        }); //End Search Iteration;
         s_results.forEach((r) -> {
             results.add(r);
         });
         if(results.isEmpty()){
-            System.out.println("Item tidak ditemukan!");
+//            System.out.println("Item tidak ditemukan!");
             return null;
         }
         return results;
