@@ -12,7 +12,7 @@ import java.util.List;
  * @author Dharm
  */
 public class Item{
-    int itemId;    
+    String itemId;    
     int price;
     int stock;
     String itemName;
@@ -31,7 +31,7 @@ public class Item{
     
     public Item(){}
     
-    public Item(int itemId,    
+    public Item(String itemId,    
     int price,
     int stock,
     String itemName,

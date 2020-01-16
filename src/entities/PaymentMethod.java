@@ -13,4 +13,15 @@ public class PaymentMethod {
     String paymentMethodId;
     String paymentMethodName;
     String paymentMethodDesc;
+
+    public PaymentMethod() {
+    }
+
+    public PaymentMethod(String paymentMethodId, String paymentMethodName, String paymentMethodDesc) {
+        this.paymentMethodId = paymentMethodId;
+        this.paymentMethodName = paymentMethodName;
+        this.paymentMethodDesc = paymentMethodDesc;
+    }
+    
+    
 }

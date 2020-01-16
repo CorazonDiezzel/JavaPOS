@@ -21,11 +21,12 @@ public class ItemHandler {
     String searchKey;
     String searchValue = "";
     
-    public void showSearchItemMenu(){
+    public Item showSearchItemMenu(){
         searchKey = Item.AttrName(3);
         System.out.println("Masukkan "+searchKey);
         searchValue = sc.nextLine();
         Enumeration res = items.getItem(searchKey, searchValue) != null ? items.getItem(searchKey, searchValue).elements():null;
+        Boolean found = res.hasMoreElements();
         table.setColumnSpace(tableWidth).header(new String[]{
             Item.AttrNames()[0],
             Item.AttrNames()[3],
@@ -44,6 +45,7 @@ public class ItemHandler {
             
         }
         System.out.println("Masukkan No Barang Yang Dipilih :");
+        return items.getItem(searchKey, sc.next()).elementAt(0);
     }
     public void addItem(){
         System.out.println("Masukkan "+Item.AttrNames()[0]+" : ");

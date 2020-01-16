@@ -20,16 +20,16 @@ public class MItem {
     Stack<Item> items = new Stack<>();
 
     public MItem() {
-        items.addElement(new Item(1,4000,40,"LePen Pensil 2B","89129818273","LePen"  ,"Pensil"));
-        items.addElement(new Item(2,4500,20,"LePen Pensil 3B","38910205860","LePen"  ,"Pensil"));
-        items.addElement(new Item(3,5000,10,"LePen Pensil 4B","93748393759","LePen"  ,"Pensil"));
-        items.addElement(new Item(4,5500,30,"LePen Pensil 5B","19818302840","LePen"  ,"Pensil"));
-        items.addElement(new Item(5,5500,30,"Buku Gambar"    ,"18492837478","VinLand","Buku"));
-        items.addElement(new Item(6,5500,30,"Buku Tulis Noob","19818302840","VinLand","Buku"));
-        items.addElement(new Item(7,5500,30,"Buku Tulis Pro" ,"19818346240","VinLand","Buku"));
-        items.addElement(new Item(8,5500,30,"Buku Gambar Pro","19475302840","VinLand","Buku"));
-        items.addElement(new Item(9,5500,30,"Penghapus"      ,"19818302916","VinLand","Penghapus"));
-        items.addElement(new Item(10,5500,30,"TipEx"         ,"19818302001","Ytd"    ,"TipEx"));
+        items.addElement(new Item("ITM000001",4000,40,"LePen Pensil 2B","89129818273","LePen"  ,"Pensil"));
+        items.addElement(new Item("ITM000002",4500,20,"LePen Pensil 3B","38910205860","LePen"  ,"Pensil"));
+        items.addElement(new Item("ITM000003",5000,10,"LePen Pensil 4B","93748393759","LePen"  ,"Pensil"));
+        items.addElement(new Item("ITM000004",5500,30,"LePen Pensil 5B","19818302840","LePen"  ,"Pensil"));
+        items.addElement(new Item("ITM000005",5500,30,"Buku Gambar"    ,"18492837478","VinLand","Buku"));
+        items.addElement(new Item("ITM000006",5500,30,"Buku Tulis Noob","19818302840","VinLand","Buku"));
+        items.addElement(new Item("ITM000007",5500,30,"Buku Tulis Pro" ,"19818346240","VinLand","Buku"));
+        items.addElement(new Item("ITM000008",5500,30,"Buku Gambar Pro","19475302840","VinLand","Buku"));
+        items.addElement(new Item("ITM000009",5500,30,"Penghapus"      ,"19818302916","VinLand","Penghapus"));
+        items.addElement(new Item("ITM000010",5500,30,"TipEx"          ,"19818302001","Ytd"    ,"TipEx"));
     }
     
     public Vector<Item> getItem(String attrName, String attrValue){

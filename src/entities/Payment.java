@@ -14,4 +14,16 @@ public class Payment {
     String paymentMethod;
     String transactionId;
     int amount;
+
+    public Payment() {
+    }
+
+    public Payment(String paymentId, String paymentMethod, String transactionId, int amount) {
+        this.paymentId = paymentId;
+        this.paymentMethod = paymentMethod;
+        this.transactionId = transactionId;
+        this.amount = amount;
+    }
+    
+    
 }

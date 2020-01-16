@@ -5,7 +5,10 @@
  */
 package handlers;
 
+import Mocks.MTransaction;
 import entities.Item;
+import entities.Transaction;
+import entities.TransactionItem;
 import java.util.Enumeration;
 import java.util.Scanner;
 import uas.Session;
@@ -21,11 +24,9 @@ public class InteractionHandler {
     
     Session session;
     Toko toko;
-    ItemHandler ih = new ItemHandler();
     Scanner s = new Scanner(System.in);
     
     Table menuTable = new Table();
-    Table salesTable = new Table();
 
     public InteractionHandler(Toko toko,Session session) {
         this.toko = toko;
@@ -46,7 +47,8 @@ public class InteractionHandler {
                     .row(new String[]{"2","Report"})
                     .row(new String[]{"3","Add Item"})
                     .row(new String[]{"4","Log Out"});
-            System.out.println("\nMasukkan Pilihan :");
+            menuTable.printLine('-');
+            System.out.print("Masukkan Pilihan :");
             p = s.next();
             switch(p){
                 case "1":
@@ -65,33 +67,65 @@ public class InteractionHandler {
         }while(p != "4");
     }
     public void showSalesMenu(){
+        ItemHandler itemHandler = new ItemHandler();
+        MTransaction mt = new MTransaction();
+        
+        Table salesTable = new Table();
+        Transaction transaction = mt.getExample();
+        
         int totalPrice = 0;
+        int input;
+        
         salesTable.printLine('=');
         salesTable.printLine('=');
-        salesTable.printLine('-');
-        salesTable.setColumnSpace(new int[]{5,30,20,20})
+        salesTable.setColumnSpace(new int[]{5,30,20,25})
                 .header(new String[]{"No","Item Name","Qty","Price"});
         salesTable.printLine('-');
 //        Item goes here
-        Enumeration res = ih.items.getItem(Item.AttrName(3), "Buku") != null ? ih.items.getItem(Item.AttrName(3), "Buku").elements():null;
-        int[] qty = {4,6,2,6,8,3,7,4,6};
-        int inum = 0;
+//        Enumeration res = ih.items.getItem(Item.AttrName(3), "Buku") != null ? ih.items.getItem(Item.AttrName(3), "Buku").elements():null;
+        Enumeration res;
+        res = transaction.fetchTransactionItem().elements();
+        
+        int inum = 1;
         while(res.hasMoreElements()){
-            Item sitm = (Item) res.nextElement();
+            TransactionItem ti = (TransactionItem) res.nextElement();
+            Item sitm = itemHandler.items.getItem(Item.AttrName(0), ti.getProductId()).firstElement();
             salesTable.row(new String[]{
                 String.valueOf(inum),
                 String.valueOf((sitm.getVal(Item.AttrName(3)))),
-                String.valueOf(qty),
-                Integer.valueOf(String.valueOf(sitm.getVal(Item.AttrName(1)))).toString()
+                String.valueOf(ti.getQty()),
+                salesTable.priceFormat(Integer.valueOf(String.valueOf(sitm.getVal(Item.AttrName(1)))))
             });
+            inum+=1;
         }
         
         salesTable.printLine('-');
-        salesTable.setColumnSpace(new int[]{10,40})
-                .row(new String[]{"Total",String.valueOf(totalPrice)});
+        salesTable.setColumnSpace(new int[]{10,70})
+                .row(new String[]{"Total",salesTable.priceFormat(totalPrice)});
         salesTable.printLine('-');
         salesTable.row(new String[]{"1","Search Item"});
         salesTable.row(new String[]{"2","Input Item ID / Barcode"});
+        salesTable.printLine('-');
+        System.out.print("Masukan pilihan : ");
+        int p = s.nextInt(1);
+        boolean v = false;
+        do{
+            switch(p){
+                case 1:
+                    TransactionItem ti = new TransactionItem();
+                    ti.setProductId(itemHandler.showSearchItemMenu().getVal(Item.AttrName(0)).toString());
+                    System.out.println("Masukan jumlah beli: ");
+                    ti.setQty(s.nextInt());
+                    transaction.addItem(ti);
+                    v = true;
+                    break;
+                case 2:
+                    break;
+                default:
+                    System.out.print("Input salah!");
+                    break;
+            }
+        }while(!v);
         salesTable.printLine('=');
     }
     public void doExit(){

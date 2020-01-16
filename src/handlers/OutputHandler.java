@@ -30,6 +30,10 @@ public class OutputHandler {
         int c = (displayWidth - s.length())/2;
         System.out.printf("%"+c+"s"+s+"%"+c+"s\n"," "," ");
     }
+    
+    public String priceFormat(int price){
+        return "Rp."+price+",-";
+    }
 }
 class Table extends OutputHandler{
     int colSpaces[];
