@@ -13,8 +13,8 @@ import entities.Cashier;
  */
 public class MCashier {
     Cashier cashiers[] = {
-        new Cashier("Corazon","Diezzel"),
-        new Cashier("Wzazky","Yil")
+        new Cashier("Chrisana Dharmawan","Corazon","Diezzel"),
+        new Cashier("Wzazky Yil","Wzazky","Yil")
     };
     public Cashier getCashier(String user, String pass){
         for (Cashier cashier : cashiers) {

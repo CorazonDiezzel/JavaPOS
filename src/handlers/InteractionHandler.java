@@ -11,6 +11,7 @@ import entities.Transaction;
 import entities.TransactionItem;
 import java.util.Enumeration;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 import uas.Session;
 import uas.Toko;
 
@@ -24,108 +25,130 @@ public class InteractionHandler {
     
     Session session;
     Toko toko;
-    Scanner s = new Scanner(System.in);
+    Scanner s;
+    
+    ItemHandler itemHandler;
     
     Table menuTable = new Table();
 
     public InteractionHandler(Toko toko,Session session) {
         this.toko = toko;
         this.session = session;
+        this.itemHandler = new ItemHandler();
+        s = new Scanner(System.in);
         this.showTokoMenu();
     }
     
     public void showTokoMenu(){
         String p;
-        menuTable.printLine('=');
-        menuTable.center(toko.getTokoName());
-        menuTable.center(toko.getTokoAddress());
-        menuTable.center(toko.getTokoPhoneNo());
-        menuTable.printLine('=');
         do{
+            menuTable.printLine('=');
+            menuTable.center(toko.getTokoName());
+            menuTable.center(toko.getTokoAddress());
+            menuTable.center(toko.getTokoPhoneNo());
+            menuTable.printLine('=');
+            
+            menuTable.setColumnSpace(new int[]{10,70})
+                    .row(new String[]{"User",this.session.getName()});
+            menuTable.printLine('=');
+            
             menuTable.setColumnSpace(new int[]{5,40})
                     .row(new String[]{"1","New Sales"})
                     .row(new String[]{"2","Report"})
                     .row(new String[]{"3","Add Item"})
                     .row(new String[]{"4","Log Out"});
             menuTable.printLine('-');
+            
             System.out.print("Masukkan Pilihan :");
+            s = new Scanner(System.in);
             p = s.next();
             switch(p){
                 case "1":
                     showSalesMenu();
                     break;
                 case "2":
-
+                    menuTable.center("NOT IMPLEMENTED YET");
                     break;
                 case "3":
-
+                    itemHandler.addItem();
                     break;
                 case "4":
-
+                    session.logOut();
                     break;
             }
-        }while(p != "4");
+        }while(!"4".equals(p));
     }
     public void showSalesMenu(){
-        ItemHandler itemHandler = new ItemHandler();
         MTransaction mt = new MTransaction();
-        
+        TransactionHandler transactionHandler = new TransactionHandler(mt.getExample(), this.itemHandler);
+        Transaction transaction;
         Table salesTable = new Table();
-        Transaction transaction = mt.getExample();
         
-        int totalPrice = 0;
-        int input;
-        
-        salesTable.printLine('=');
-        salesTable.printLine('=');
-        salesTable.setColumnSpace(new int[]{5,30,20,25})
-                .header(new String[]{"No","Item Name","Qty","Price"});
-        salesTable.printLine('-');
-//        Item goes here
-//        Enumeration res = ih.items.getItem(Item.AttrName(3), "Buku") != null ? ih.items.getItem(Item.AttrName(3), "Buku").elements():null;
         Enumeration res;
-        res = transaction.fetchTransactionItem().elements();
-        
-        int inum = 1;
-        while(res.hasMoreElements()){
-            TransactionItem ti = (TransactionItem) res.nextElement();
-            Item sitm = itemHandler.items.getItem(Item.AttrName(0), ti.getProductId()).firstElement();
-            salesTable.row(new String[]{
-                String.valueOf(inum),
-                String.valueOf((sitm.getVal(Item.AttrName(3)))),
-                String.valueOf(ti.getQty()),
-                salesTable.priceFormat(Integer.valueOf(String.valueOf(sitm.getVal(Item.AttrName(1)))))
-            });
-            inum+=1;
-        }
-        
-        salesTable.printLine('-');
-        salesTable.setColumnSpace(new int[]{10,70})
-                .row(new String[]{"Total",salesTable.priceFormat(totalPrice)});
-        salesTable.printLine('-');
-        salesTable.row(new String[]{"1","Search Item"});
-        salesTable.row(new String[]{"2","Input Item ID / Barcode"});
-        salesTable.printLine('-');
-        System.out.print("Masukan pilihan : ");
-        int p = s.nextInt(1);
-        boolean v = false;
+        int p = 0;
+        boolean again;
         do{
-            switch(p){
-                case 1:
-                    TransactionItem ti = new TransactionItem();
-                    ti.setProductId(itemHandler.showSearchItemMenu().getVal(Item.AttrName(0)).toString());
-                    System.out.println("Masukan jumlah beli: ");
-                    ti.setQty(s.nextInt());
-                    transaction.addItem(ti);
-                    v = true;
-                    break;
-                case 2:
-                    break;
-                default:
-                    System.out.print("Input salah!");
-                    break;
+            again = false;
+            transaction = transactionHandler.getCurrentTransaction();
+            
+            salesTable.printLine('=');
+            salesTable.printLine('=');
+            salesTable.setColumnSpace(new int[]{5,30,15,10,20})
+                    .header(new String[]{"No","Item Name","Price","Qty","Sum Price"});
+            salesTable.printLine('-');
+
+    //      Fetch TransactionItem
+            res = transactionHandler.getCurrentTransaction().fetchTransactionItem().elements();
+            if(res!=null){
+                int inum = 1;
+                while(res.hasMoreElements()){
+                    TransactionItem ti = (TransactionItem) res.nextElement();
+                    Item sitm = itemHandler.items.getItem(Item.ID, ti.getProductId()).firstElement();
+                    salesTable.row(new String[]{
+                        String.valueOf(inum),
+                        String.valueOf((sitm.getVal(Item.ITEM_NAME))),
+                        salesTable.priceFormat(Integer.valueOf(String.valueOf(sitm.getVal(Item.PRICE)))),
+                        String.valueOf(ti.getQty()),
+                        salesTable.priceFormat(Integer.valueOf(String.valueOf(sitm.getVal(Item.PRICE)))*ti.getQty())
+                    });
+                    inum+=1;
+                }
             }
-        }while(!v);
+            salesTable.printLine('-');
+            salesTable.setColumnSpace(new int[]{10,70})
+                    .row(new String[]{"Total",salesTable.priceFormat(Integer.valueOf(transaction.getVal(Transaction.TOTAL_PRICE).toString()))});
+            salesTable.printLine('-');
+            salesTable.row(new String[]{"1","Search Item"})
+                    .row(new String[]{"2","Input Item ID / Barcode"})
+                    .row(new String[]{"3","Checkout"})
+                    .row(new String[]{"4","Keluar"});
+            salesTable.printLine('-');
+            System.out.print("Masukan pilihan : ");
+            s = new Scanner(System.in);
+            p = s.nextInt();
+            if(Pattern.matches("[1234]",String.valueOf(p))){
+                switch (p) {
+                    case 1:
+                        again = transactionHandler.addTransactionItem(Item.ITEM_NAME);
+                        break;
+                    case 2:
+                        again = transactionHandler.addTransactionItem(p == 1 ? Item.ID:Item.BARCODE);
+                        break;
+                    case 3:
+                        again = transactionHandler.Checkout();
+                        break;
+                    case 4:
+                        again = false;
+                        break;
+                    default:
+                        again = true;
+                        break;
+                }
+            }else{
+                System.out.println("Input mismatch!");
+                again = true;
+            }
+        }while(again);
         salesTable.printLine('=');
     }
     public void doExit(){

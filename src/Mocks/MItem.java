@@ -6,9 +6,6 @@
 package Mocks;
 
 import entities.Item;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -39,12 +36,9 @@ public class MItem {
         Stack<String> srcVal = new Stack<>();
         String[] swords = attrValue.split(" ");
         for(String sword : swords){
-//            System.out.println(sword);
             srcVal.push(sword);
         }
-//        for (Item item :(Item[]) items.toArray()) {
         items.forEach((item) -> { //Start Search Iteration;
-//            Item
             Stack<String> itemVal = new Stack<>();
             String[] iwords = String.valueOf(item.getVal(attrName)).split(" ");
             for(String iword : iwords){
@@ -74,6 +68,7 @@ public class MItem {
     }
     
     public int addItem(Item newItem){
+        this.items.push(newItem);
         return 0;
     }
 }

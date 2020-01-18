@@ -9,46 +9,64 @@ import Mocks.MItem;
 import java.util.Scanner;
 import entities.Item;
 import java.util.Enumeration;
+import java.util.InputMismatchException;
+import java.util.Vector;
 /**
  *
  * @author Dharm
  */
 public class ItemHandler {
     Table table = new Table();
-    Scanner sc = new Scanner(System.in);
+    Scanner sc;
     MItem items = new MItem();
-    int tableWidth[] = {10,50,20};
+    int tableWidth[] = {5,10,45,20};
     String searchKey;
     String searchValue = "";
     
-    public Item showSearchItemMenu(){
-        searchKey = Item.AttrName(3);
+    public Item showSearchItemMenu(String searchkey){
+        searchKey = searchkey == null ? Item.ITEM_NAME:searchkey;
         System.out.println("Masukkan "+searchKey);
+        sc = new Scanner(System.in);
         searchValue = sc.nextLine();
-        Enumeration res = items.getItem(searchKey, searchValue) != null ? items.getItem(searchKey, searchValue).elements():null;
-        Boolean found = res.hasMoreElements();
+        Vector<Item> res = items.getItem(searchKey, searchValue) != null ? items.getItem(searchKey, searchValue):null;
+        Enumeration result_enum = res != null ? res.elements():null;
+        Boolean found = result_enum != null ? result_enum.hasMoreElements():false;
+        Integer select = 0;
+        int result_enum_index = 1;
         table.setColumnSpace(tableWidth).header(new String[]{
-            Item.AttrNames()[0],
-            Item.AttrNames()[3],
-            Item.AttrNames()[4]
+            "No",
+            Item.ID,
+            Item.ITEM_NAME,
+            Item.STOCK
         });
-        if(res !=null){
-            while (res.hasMoreElements()) {
-                Item nextItem = (Item) res.nextElement();
+        
+        if(result_enum != null){
+            while (result_enum.hasMoreElements()) {
+                Item nextItem = (Item) result_enum.nextElement();
                 table.row(new String[]{
-                    nextItem.getVal(Item.AttrName(0)).toString(),
-                    nextItem.getVal(Item.AttrName(3)).toString(),
-                    nextItem.getVal(Item.AttrName(4)).toString()
+                    String.valueOf(result_enum_index),
+                    nextItem.getVal(Item.ID).toString(),
+                    nextItem.getVal(Item.ITEM_NAME).toString(),
+                    nextItem.getVal(Item.STOCK).toString()
                 });
+                result_enum_index+=1;
             }
+            do{
+                System.out.println("Masukkan No Barang Yang Dipilih :");
+                try{
+                    select = sc.nextInt()-1;
+                }catch(InputMismatchException ime){
+                    System.out.println("Input salah!");
+                }
+            }while(select != -1 && select > result_enum_index-1);
+            return res.elementAt(select);
         }else{
-            
+            System.out.println("Item tidak ditemukan!");
         }
-        System.out.println("Masukkan No Barang Yang Dipilih :");
-        return items.getItem(searchKey, sc.next()).elementAt(0);
+        return null;
     }
     public void addItem(){
-        System.out.println("Masukkan "+Item.AttrNames()[0]+" : ");
+        System.out.println("Masukkan "+Item.ID+" : ");
         sc.next();
         
     }

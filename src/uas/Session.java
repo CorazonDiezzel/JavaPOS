@@ -26,4 +26,8 @@ public class Session {
     public void logOut(){
         this.cashier = null;
     }
+    
+    public String getName(){
+        return this.cashier.getCashierUserName();
+    }
 }

@@ -9,22 +9,33 @@ package entities;
  *
  * @author Dharm
  */
-public class Cashier {
+public final class Cashier {
+    private String cashierFullName;
     private String cashierUserName;
     private String cashierPassword;
     
     public Cashier(){}
     
-    public Cashier(String user, String pass){
+    public Cashier(String fullname,String user, String pass){
+        this.setCashierFullName(fullname);
         this.setCashierUserName(user);
         this.setCashierPassword(pass);
     }
+
+    public void setCashierFullName(String cashierFullName) {
+        this.cashierFullName = cashierFullName;
+    }
+    
     public void setCashierUserName(String cashierUserName) {
         this.cashierUserName = cashierUserName;
     }
 
     public void setCashierPassword(String cashierPassword) {
         this.cashierPassword = cashierPassword;
+    }
+
+    public String getCashierFullName() {
+        return cashierFullName;
     }
 
     public String getCashierUserName() {

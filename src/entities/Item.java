@@ -19,7 +19,7 @@ public class Item{
     String Barcode;
     String Brand;
     String itemType;
-    static String[] Attributes = {
+    final static String[] ATTR = {
             "ID",
             "Price",
             "Stock",
@@ -28,6 +28,13 @@ public class Item{
             "Brand",
             "Item Type"
     };
+    public static String ID = ATTR[0];
+    public static String PRICE = ATTR[1];
+    public static String STOCK = ATTR[2];
+    public static String ITEM_NAME = ATTR[3];
+    public static String BARCODE = ATTR[4];
+    public static String BRAND = ATTR[5];
+    public static String ITEM_TYPE = ATTR[6];
     
     public Item(){}
     
@@ -47,28 +54,20 @@ public class Item{
         this.itemType = itemType;
     }
     
-    public static String[] AttrNames(){
-        return Attributes;
-    }
-    
-    public static String AttrName(int index){
-        return Attributes[index];
-    }
-    
     public Object getVal(String attr){
-        if(attr == Attributes[0]){
+        if(attr.equals(ATTR[0])){
             return this.itemId;
-        }else if(attr == Attributes[1]){
+        }else if(attr.equals(ATTR[1])){
             return this.price;
-        }else if(attr == Attributes[2]){
+        }else if(attr.equals(ATTR[2])){
             return this.stock;
-        }else if(attr == Attributes[3]){
+        }else if(attr.equals(ATTR[3])){
             return this.itemName;
-        }else if(attr == Attributes[4]){
+        }else if(attr.equals(ATTR[4])){
             return this.Barcode;
-        }else if(attr == Attributes[5]){
+        }else if(attr.equals(ATTR[5])){
             return this.Brand;
-        }else if(attr == Attributes[6]){
+        }else if(attr.equals(ATTR[6])){
             return this.itemType;
         }
         return null;
