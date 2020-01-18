@@ -12,26 +12,24 @@ import entities.TransactionItem;
 import java.util.Scanner;
 
 /**
- *
+ * Declare once.
  * @author Dharm
  */
 public class TransactionHandler {
     Transaction currentTransaction;
     MTransaction mtrans = new MTransaction();
     ItemHandler itemHandler;
+    Table transactionTable;
     Scanner s;
-
+    
     public TransactionHandler(Transaction currentTransaction,ItemHandler itemHandler) {
         this.currentTransaction = currentTransaction;
         this.itemHandler = itemHandler;
+        this.transactionTable = new Table();
         s = new Scanner(System.in);
     }
     
-    void createNewTransaction(){
-        currentTransaction = new Transaction();
-    }
-    
-    void getTransaction(String transactionID){
+    void setTransaction(String transactionID){
         this.currentTransaction = mtrans.getTransaction(Transaction.ID, transactionID).firstElement();
     }
     
@@ -39,11 +37,41 @@ public class TransactionHandler {
         return this.currentTransaction;
     }
     
-    boolean Checkout(){
-        return true;
+    public boolean Checkout(){
+        Integer totalPaid = 0;
+        Integer totalPrice = (int)this.currentTransaction.getVal(Transaction.TOTAL_PRICE);
+        
+        this.transactionTable.printLine('=');
+        this.transactionTable.center("CHECKOUT");
+        this.transactionTable.printLine('=');
+        this.transactionTable.setColumnSpace(new int[]{22,58})
+                .row(new String[]{"Total Harga",OutputHandler.priceFormat(totalPrice)});
+        this.transactionTable.printLine('-');
+        System.out.print("Masukan Nominal Bayar : ");
+        this.s = new Scanner(System.in);
+        totalPaid = s.nextInt();
+        this.transactionTable.printLine('-');
+        this.transactionTable.setColumnSpace(new int[]{22,58})
+                .row(new String[]{"Total Harga",OutputHandler.priceFormat((int)this.currentTransaction.getVal(Transaction.TOTAL_PRICE))})
+                .row(new String[]{"Total Bayar",OutputHandler.priceFormat(totalPaid)})
+                .row(new String[]{"Kembalian",OutputHandler.priceFormat(totalPrice-totalPaid)});
+        this.mtrans.pushTransaction(currentTransaction,this.itemHandler);
+        this.currentTransaction = new Transaction();
+        this.transactionTable.printLine('=');
+        this.transactionTable.center("TERIMA KASIH");
+        this.transactionTable.printLine('=');
+        this.s = new Scanner(System.in);
+        s.nextLine(); //Intercept for Nothing
+        return false;
     }
     
-    boolean addTransactionItem(String p){
+    /**
+     * Interaction for adding new TransactionItem into Current Transaction.
+     * @see ItemHandler
+     * @param p Field to search
+     * @return true if Item can be added successfully
+     */
+    public boolean addTransactionItem(String p){
     TransactionItem nti = new TransactionItem();
         String productId = "";
         try{
@@ -55,8 +83,18 @@ public class TransactionHandler {
         }
         if(!productId.equals("")){
             nti.setProductId(productId);
+            int qty;
+            boolean valid = false;
+            do{
             System.out.println("Masukan jumlah beli: ");
-            nti.setQty(s.nextInt());
+            s = new Scanner(System.in);
+            qty = s.nextInt();
+            valid = ((int)this.itemHandler.items.getItem(Item.ID, productId).firstElement().getVal(Item.STOCK)) - qty > 0;
+            if(!valid){
+                System.out.print("Stock kurang!");
+            }
+            }while(!valid);
+            nti.setQty(qty);
             currentTransaction.addItem(nti);
             return true;
         }

@@ -6,8 +6,10 @@
 package Mocks;
 
 import entities.Item;
+import java.util.Scanner;
 import java.util.Stack;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -27,6 +29,20 @@ public class MItem {
         items.addElement(new Item("ITM000008",5500,30,"Buku Gambar Pro","19475302840","VinLand","Buku"));
         items.addElement(new Item("ITM000009",5500,30,"Penghapus"      ,"19818302916","VinLand","Penghapus"));
         items.addElement(new Item("ITM000010",5500,30,"TipEx"          ,"19818302001","Ytd"    ,"TipEx"));
+    }
+    
+    public String getNewID(){
+        String gid = "ITM000000";
+        int last = Integer.valueOf(new Scanner(this.items.lastElement().getVal(Item.ID).toString()).skip(Pattern.compile("[a-zA-Z]+")).next())+1;
+        String subgid = gid.substring(0, gid.length()-String.valueOf(last).length()).concat(String.valueOf(last));
+        return subgid;
+    }
+    
+    public int pushItem(Item newItem){
+        Item nitem = newItem;
+        nitem.setItemId(getNewID());
+        this.items.push(newItem);
+        return 0;
     }
     
     public Vector<Item> getItem(String attrName, String attrValue){
@@ -67,8 +83,4 @@ public class MItem {
         return results;
     }
     
-    public int addItem(Item newItem){
-        this.items.push(newItem);
-        return 0;
-    }
 }

@@ -19,24 +19,9 @@ public class Item{
     String Barcode;
     String Brand;
     String itemType;
-    final static String[] ATTR = {
-            "ID",
-            "Price",
-            "Stock",
-            "Item Name",
-            "Barcode",
-            "Brand",
-            "Item Type"
-    };
-    public static String ID = ATTR[0];
-    public static String PRICE = ATTR[1];
-    public static String STOCK = ATTR[2];
-    public static String ITEM_NAME = ATTR[3];
-    public static String BARCODE = ATTR[4];
-    public static String BRAND = ATTR[5];
-    public static String ITEM_TYPE = ATTR[6];
     
-    public Item(){}
+    public Item(){
+    }
     
     public Item(String itemId,    
     int price,
@@ -53,6 +38,51 @@ public class Item{
         this.Brand = Brand;
         this.itemType = itemType;
     }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setBrand(String Brand) {
+        this.Brand = Brand;
+    }
+
+    public void setBarcode(String Barcode) {
+        this.Barcode = Barcode;
+    }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
+    }
+    
+    final static String[] ATTR = {
+            "ID",
+            "Price",
+            "Stock",
+            "Item Name",
+            "Barcode",
+            "Brand",
+            "Item Type"
+    };
+    public static final String ID = ATTR[0];
+    public static final String PRICE = ATTR[1];
+    public static final String STOCK = ATTR[2];
+    public static final String ITEM_NAME = ATTR[3];
+    public static final String BARCODE = ATTR[4];
+    public static final String BRAND = ATTR[5];
+    public static final String ITEM_TYPE = ATTR[6];
     
     public Object getVal(String attr){
         if(attr.equals(ATTR[0])){
@@ -72,4 +102,5 @@ public class Item{
         }
         return null;
     }
+
 }

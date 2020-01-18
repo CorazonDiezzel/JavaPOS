@@ -11,9 +11,11 @@ import entities.Item;
 import java.util.Enumeration;
 import java.util.InputMismatchException;
 import java.util.Vector;
+import java.util.regex.Pattern;
 /**
  *
  * @author Dharm
+ * Class for handling Items
  */
 public class ItemHandler {
     Table table = new Table();
@@ -22,7 +24,19 @@ public class ItemHandler {
     int tableWidth[] = {5,10,45,20};
     String searchKey;
     String searchValue = "";
+
+    /**
+     *  Declared once, Class to handle Items.
+     */
+    public ItemHandler() {
+    }
     
+    
+    
+    /**@param searchkey parameter to specify the Field.
+     * 
+     * @return Item
+     */
     public Item showSearchItemMenu(String searchkey){
         searchKey = searchkey == null ? Item.ITEM_NAME:searchkey;
         System.out.println("Masukkan "+searchKey);
@@ -65,9 +79,35 @@ public class ItemHandler {
         }
         return null;
     }
+    
+    public void updateStockItem(String itemId, int new_value){
+        Item itm = this.items.getItem(Item.ID, itemId).firstElement();
+        this.items.getItem(Item.ID, itemId).firstElement().setStock(((int)itm.getVal(Item.STOCK))-new_value);
+    }
+
+    /**
+     * function to add Item to Mock data.
+     */
     public void addItem(){
-        System.out.println("Masukkan "+Item.ID+" : ");
-        sc.next();
-        
+        Item new_item = new Item();
+        System.out.println("Masukkan "+Item.BARCODE+" : ");
+        sc = new Scanner(System.in);
+        new_item.setBarcode(sc.next(Pattern.compile("[0-9]+")));
+        System.out.println("Masukkan "+Item.ITEM_NAME+" : ");
+        sc = new Scanner(System.in);
+        new_item.setBarcode(sc.next(Pattern.compile("[a-zA-Z0-9]+")));
+        System.out.println("Masukkan "+Item.ITEM_TYPE+" : ");
+        sc = new Scanner(System.in);
+        new_item.setBarcode(sc.next(Pattern.compile("[a-zA-Z0-9]+")));
+        System.out.println("Masukkan "+Item.PRICE+" : ");
+        sc = new Scanner(System.in);
+        new_item.setBarcode(sc.next(Pattern.compile("[0-9]+")));
+        System.out.println("Masukkan "+Item.STOCK+" : ");
+        sc = new Scanner(System.in);
+        new_item.setBarcode(sc.next(Pattern.compile("[0-9]+")));
+        System.out.println("Masukkan "+Item.BRAND+" : ");
+        sc = new Scanner(System.in);
+        new_item.setBarcode(sc.next(Pattern.compile("[a-zA-Z0-9]+")));
+        this.items.pushItem(new_item);
     }
 }

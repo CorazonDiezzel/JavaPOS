@@ -23,6 +23,34 @@ public class Transaction {
     String transactionStatus;
     Stack<TransactionItem> items;
     
+    public Transaction() {
+        this.transactionId = "";
+        this.transactionDate = new Date();
+        this.transactionTotalPrice = 0;
+        this.transactionTotalPaid = 0;
+        this.transactionStatus = "";
+        this.items = new Stack<>();
+    }
+
+    public Transaction(String transactionId, Date transactionDate, int transactionTotalPrice, int transactionTotalPaid, String transactionStatus) {
+        this.transactionId = transactionId;
+        this.transactionDate = transactionDate;
+        this.transactionTotalPrice = transactionTotalPrice;
+        this.transactionTotalPaid = transactionTotalPaid;
+        this.transactionStatus = transactionStatus;
+        this.items = new Stack<>();
+    }
+    
+    public Transaction(String transactionId, Date transactionDate, int transactionTotalPrice, int transactionTotalPaid, String transactionStatus, Stack<TransactionItem> items) {
+        this.transactionId = transactionId;
+        this.transactionDate = transactionDate;
+        this.transactionTotalPrice = transactionTotalPrice;
+        this.transactionTotalPaid = transactionTotalPaid;
+        this.transactionStatus = transactionStatus;
+        this.items = items;
+        
+    }
+    
     final static String[] ATTR = {
             "ID",
             "Date",
@@ -31,12 +59,12 @@ public class Transaction {
             "Status",
             "Items"
     };
-    public static String ID = ATTR[0];
-    public static String DATE = ATTR[1];
-    public static String TOTAL_PRICE = ATTR[2];
-    public static String TOTAL_PAID = ATTR[3];
-    public static String STATUS = ATTR[4];
-    public static String ITEMS = ATTR[5];
+    public static final String ID = ATTR[0];
+    public static final String DATE = ATTR[1];
+    public static final String TOTAL_PRICE = ATTR[2];
+    public static final String TOTAL_PAID = ATTR[3];
+    public static final String STATUS = ATTR[4];
+    public static final String ITEMS = ATTR[5];
     
     public Object getVal(String attr){
         if(attr.equals(ATTR[0])){
@@ -83,44 +111,26 @@ public class Transaction {
         this.transactionTotalPrice = transactionTotalPrice;
     }
     
-    public Transaction() {
-        
-    }
-
-    public Transaction(String transactionId, Date transactionDate, int transactionTotalPrice, int transactionTotalPaid, String transactionStatus) {
-        this.transactionId = transactionId;
-        this.transactionDate = transactionDate;
-        this.transactionTotalPrice = transactionTotalPrice;
-        this.transactionTotalPaid = transactionTotalPaid;
-        this.transactionStatus = transactionStatus;
-        this.items = new Stack<>();
-        
-    }
-    
-    public Transaction(String transactionId, Date transactionDate, int transactionTotalPrice, int transactionTotalPaid, String transactionStatus, Stack<TransactionItem> items) {
-        this.transactionId = transactionId;
-        this.transactionDate = transactionDate;
-        this.transactionTotalPrice = transactionTotalPrice;
-        this.transactionTotalPaid = transactionTotalPaid;
-        this.transactionStatus = transactionStatus;
-        this.items = items;
-        
-    }
-    
     public void setTransactionItem(Stack<TransactionItem> items){
         this.items = items;
     }
     
+    /**
+     * procedure to add TransactionItem into Current Transaction.
+     * if there was the same Item being added, it will 
+     * sum the quantity.
+     * @param itm The TransactionItem that want to be added.
+     */
     public void addItem(TransactionItem itm){
         itm.transactionId = this.transactionId;
-        final boolean newItem;
-        this.items.forEach((t_itm) -> {
+        boolean newItem = true;
+        for(TransactionItem t_itm:this.items){
             if(t_itm.productId == itm.productId){
                 t_itm.qty += itm.qty;
-                itm.qty = t_itm.qty;
+                newItem = false;
             }
-        });
-        if(this.items.search(itm)<0){
+        }
+        if(newItem){
             this.items.push(itm);
         }
     }

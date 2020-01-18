@@ -31,7 +31,7 @@ public class OutputHandler {
         System.out.printf("%"+c+"s"+s+"%"+c+"s\n"," "," ");
     }
     
-    public String priceFormat(int price){
+    public static String priceFormat(int price){
         return "Rp."+price+",-";
     }
 }
