@@ -91,7 +91,7 @@ public class TransactionHandler {
             qty = s.nextInt();
             valid = ((int)this.itemHandler.items.getItem(Item.ID, productId).firstElement().getVal(Item.STOCK)) - qty > 0;
             if(!valid){
-                System.out.print("Stock kurang!");
+                System.out.println("Stock kurang!");
             }
             }while(!valid);
             nti.setQty(qty);
