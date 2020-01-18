@@ -28,6 +28,11 @@ public class UAS {
         tokoku.tokoAddress = "Jl.Kebanjiran, Gang.Tak Berujung, No.13";
         tokoku.tokoPhoneNo = "08123456719";
         do{
+            /**
+            * Login tidak berjalan dalam console IDE.
+            * jika ingin menjalankan login, maka bukalah dengan Terminal lain (seperti Command Prompt).
+            * Ini hanya untuk testing.
+            */
 //            LoginHandler lh = new LoginHandler();
 //            lh.doLogin(currentSession);
             currentSession.setSession(new MCashier().getCashier("Corazon", "Diezzel"));
