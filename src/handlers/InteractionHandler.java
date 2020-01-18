@@ -17,7 +17,7 @@ import uas.Toko;
 
 
 /**
- *
+ *  Declare once.
  * @author Dharm
  */
 public class InteractionHandler {
@@ -39,7 +39,7 @@ public class InteractionHandler {
         this.showTokoMenu();
     }
     
-    public void showTokoMenu(){
+    public final void showTokoMenu(){
         String p;
         do{
             menuTable.printLine('=');
@@ -78,9 +78,13 @@ public class InteractionHandler {
             }
         }while(!"4".equals(p));
     }
+
+    /**
+     * Procedure
+     */
     public void showSalesMenu(){
         MTransaction mt = new MTransaction();
-        TransactionHandler transactionHandler = new TransactionHandler(mt.getExample(), this.itemHandler);
+        TransactionHandler transactionHandler = new TransactionHandler(new Transaction(), this.itemHandler);
         Transaction transaction;
         Table salesTable = new Table();
         
@@ -99,6 +103,7 @@ public class InteractionHandler {
 
     //      Fetch TransactionItem
             res = transactionHandler.getCurrentTransaction().fetchTransactionItem().elements();
+            int totalPrice = 0;
             if(res!=null){
                 int inum = 1;
                 while(res.hasMoreElements()){
@@ -107,21 +112,23 @@ public class InteractionHandler {
                     salesTable.row(new String[]{
                         String.valueOf(inum),
                         String.valueOf((sitm.getVal(Item.ITEM_NAME))),
-                        salesTable.priceFormat(Integer.valueOf(String.valueOf(sitm.getVal(Item.PRICE)))),
+                        OutputHandler.priceFormat(Integer.valueOf(String.valueOf(sitm.getVal(Item.PRICE)))),
                         String.valueOf(ti.getQty()),
-                        salesTable.priceFormat(Integer.valueOf(String.valueOf(sitm.getVal(Item.PRICE)))*ti.getQty())
+                        OutputHandler.priceFormat(Integer.valueOf(String.valueOf(sitm.getVal(Item.PRICE)))*ti.getQty())
                     });
+                    totalPrice +=Integer.valueOf(String.valueOf(sitm.getVal(Item.PRICE)))*ti.getQty();
                     inum+=1;
                 }
+                transactionHandler.currentTransaction.setTransactionTotalPrice(totalPrice);
             }
             salesTable.printLine('-');
             salesTable.setColumnSpace(new int[]{10,70})
-                    .row(new String[]{"Total",salesTable.priceFormat(Integer.valueOf(transaction.getVal(Transaction.TOTAL_PRICE).toString()))});
+                    .row(new String[]{"Total",Table.priceFormat(Integer.valueOf(transaction.getVal(Transaction.TOTAL_PRICE).toString()))});
             salesTable.printLine('-');
             salesTable.row(new String[]{"1","Search Item"})
                     .row(new String[]{"2","Input Item ID / Barcode"})
                     .row(new String[]{"3","Checkout"})
-                    .row(new String[]{"4","Keluar"});
+                    .row(new String[]{"4","Cancel"});
             salesTable.printLine('-');
             System.out.print("Masukan pilihan : ");
             s = new Scanner(System.in);
