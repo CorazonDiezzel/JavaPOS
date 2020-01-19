@@ -54,7 +54,7 @@ public class TransactionHandler {
         this.transactionTable.setColumnSpace(new int[]{22,58})
                 .row(new String[]{"Total Harga",OutputHandler.priceFormat((int)this.currentTransaction.getVal(Transaction.TOTAL_PRICE))})
                 .row(new String[]{"Total Bayar",OutputHandler.priceFormat(totalPaid)})
-                .row(new String[]{"Kembalian",OutputHandler.priceFormat(totalPrice-totalPaid)});
+                .row(new String[]{"Kembalian",OutputHandler.priceFormat(totalPaid-totalPrice)});
         this.mtrans.pushTransaction(currentTransaction,this.itemHandler);
         this.currentTransaction = new Transaction();
         this.transactionTable.printLine('=');
